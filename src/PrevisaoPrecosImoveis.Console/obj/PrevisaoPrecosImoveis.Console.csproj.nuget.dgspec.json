@@ -1,0 +1,214 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
+        "projectName": "PrevisaoPrecosImoveis.Console",
+        "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
+        "packagesPath": "C:\\Users\\rocha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\rocha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "framework": "net8.0",
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj": {
+                "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.400"
+      },
+      "frameworks": {
+        "net8.0": {
+          "framework": "net8.0",
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Logging.Console": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2026.9.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj",
+        "projectName": "PrevisaoPrecosImoveis.Core",
+        "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj",
+        "packagesPath": "C:\\Users\\rocha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\rocha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "framework": "net8.0",
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.400"
+      },
+      "frameworks": {
+        "net8.0": {
+          "framework": "net8.0",
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.104.2, )"
+            },
+            "Microsoft.Data.Analysis": {
+              "target": "Package",
+              "version": "[0.21.1, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.ML": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Microsoft.ML.AutoML": {
+              "target": "Package",
+              "version": "[0.21.1, )"
+            },
+            "Microsoft.ML.FastTree": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "System.Net.Http.Json": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

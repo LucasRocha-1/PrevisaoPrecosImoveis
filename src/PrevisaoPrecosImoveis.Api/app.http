@@ -1,0 +1,104 @@
+@baseUrl = http://localhost:5080
+
+### Open the API documentation
+GET {{baseUrl}}/
+
+### Health and model availability
+GET {{baseUrl}}/health
+
+### Readiness (503 until the training pipeline creates the model file)
+GET {{baseUrl}}/health/ready
+
+### Model status and expected fields
+GET {{baseUrl}}/api/v1/modelo
+
+### Ready-to-use prediction payloads (same as Swagger Examples)
+GET {{baseUrl}}/api/v1/previsoes/exemplos
+
+### Predict property price (apartamento Pinheiros)
+POST {{baseUrl}}/api/v1/previsoes
+Content-Type: application/json
+
+{
+  "cidade": "São Paulo",
+  "bairro": "Pinheiros",
+  "areaConstruidaM2": 85,
+  "areaTerrenoM2": 0,
+  "dormitorios": 2,
+  "banheiros": 2,
+  "vagasGaragem": 1,
+  "anoConstrucao": 2015,
+  "tipoImovel": "Apartamento",
+  "padraoConstrutivo": "Medio",
+  "valorVenal": 650000,
+  "ipcaAcumulado12m": 4.5,
+  "selicMeta": 10.5,
+  "indiceFipeZapCidade": 0,
+  "distanciaMetroKm": 0.5,
+  "distanciaEscolaKm": 0.3,
+  "distanciaParqueKm": 1.2,
+  "possuiCoordenadas": true,
+  "dataTransacao": "2026-10-23T12:00:00-03:00"
+}
+
+### Predict house price (casa Moema)
+POST {{baseUrl}}/api/v1/previsoes
+Content-Type: application/json
+
+{
+  "cidade": "São Paulo",
+  "bairro": "Moema",
+  "areaConstruidaM2": 220,
+  "areaTerrenoM2": 250,
+  "dormitorios": 4,
+  "banheiros": 3,
+  "vagasGaragem": 2,
+  "anoConstrucao": 2008,
+  "tipoImovel": "Casa",
+  "padraoConstrutivo": "Alto",
+  "valorVenal": 1800000,
+  "ipcaAcumulado12m": 4.5,
+  "selicMeta": 10.5,
+  "indiceFipeZapCidade": 0,
+  "distanciaMetroKm": 0.8,
+  "distanciaEscolaKm": 0.4,
+  "distanciaParqueKm": 0.6,
+  "possuiCoordenadas": true,
+  "dataTransacao": "2026-06-10T09:00:00-03:00"
+}
+
+### Predict without coordinates
+POST {{baseUrl}}/api/v1/previsoes
+Content-Type: application/json
+
+{
+  "cidade": "São Paulo",
+  "bairro": "Tatuapé",
+  "areaConstruidaM2": 110,
+  "areaTerrenoM2": 0,
+  "dormitorios": 3,
+  "banheiros": 2,
+  "vagasGaragem": 1,
+  "anoConstrucao": 2010,
+  "tipoImovel": "Apartamento",
+  "padraoConstrutivo": "Medio",
+  "valorVenal": 720000,
+  "ipcaAcumulado12m": 4.5,
+  "selicMeta": 10.5,
+  "indiceFipeZapCidade": 0,
+  "distanciaMetroKm": 1000,
+  "distanciaEscolaKm": 1000,
+  "distanciaParqueKm": 1000,
+  "possuiCoordenadas": false,
+  "dataTransacao": "2026-01-15T12:00:00-03:00"
+}
+
+### Invalid request (400 Problem Details)
+POST {{baseUrl}}/api/v1/previsoes
+Content-Type: application/json
+
+{
+  "cidade": "",
+  "bairro": "Pinheiros",
+  "areaConstruidaM2": -1
+}

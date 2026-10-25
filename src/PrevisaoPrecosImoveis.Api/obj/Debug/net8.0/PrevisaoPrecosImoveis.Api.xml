@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PrevisaoPrecosImoveis.Api</name>
+    </assembly>
+    <members>
+        <member name="T:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest">
+            <summary>Dados de um imóvel para estimar o preço de transação.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.Cidade">
+            <summary>Cidade do imóvel.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.Bairro">
+            <summary>Bairro do imóvel.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.AreaConstruidaM2">
+            <summary>Área construída em metros quadrados.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.AreaTerrenoM2">
+            <summary>Área do terreno em metros quadrados.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.Dormitorios">
+            <summary>Número de dormitórios.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.Banheiros">
+            <summary>Número de banheiros.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.VagasGaragem">
+            <summary>Número de vagas de garagem.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.AnoConstrucao">
+            <summary>Ano de construção, quando conhecido.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.TipoImovel">
+            <summary>Categoria do imóvel, como Apartamento ou Casa.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.PadraoConstrutivo">
+            <summary>Padrão construtivo informado para o imóvel.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.ValorVenal">
+            <summary>Valor venal do imóvel em reais, se disponível.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.IpcaAcumulado12m">
+            <summary>IPCA acumulado em 12 meses, em percentual.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.SelicMeta">
+            <summary>Meta Selic, em percentual.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.IndiceFipeZapCidade">
+            <summary>Índice FipeZap local normalizado, se já associado ao período.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.DistanciaMetroKm">
+            <summary>Distância em linha reta ao metrô mais próximo, em quilômetros.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.DistanciaEscolaKm">
+            <summary>Distância em linha reta à escola mais próxima, em quilômetros.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.DistanciaParqueKm">
+            <summary>Distância em linha reta ao parque mais próximo, em quilômetros.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.PossuiCoordenadas">
+            <summary>Indica se as coordenadas do imóvel estão disponíveis.</summary>
+        </member>
+        <member name="P:PrevisaoPrecosImoveis.Api.Contracts.CreatePrevisaoRequest.DataTransacao">
+            <summary>Data da transação ou referência da previsão, com offset ISO 8601.</summary>
+        </member>
+        <member name="T:PrevisaoPrecosImoveis.Api.Contracts.ExemplosPrevisao">
+            <summary>Corpos de requisição prontos para o Swagger e para GET /api/v1/previsoes/exemplos.</summary>
+        </member>
+        <member name="T:PrevisaoPrecosImoveis.Api.Contracts.PrevisaoResponse">
+            <summary>Preço estimado e intervalo aproximado retornados pelo modelo.</summary>
+        </member>
+        <member name="M:PrevisaoPrecosImoveis.Api.Contracts.PrevisaoResponse.#ctor(System.Single,System.Single,System.Single,System.DateTimeOffset)">
+            <summary>Preço estimado e intervalo aproximado retornados pelo modelo.</summary>
+        </member>
+        <member name="T:PrevisaoPrecosImoveis.Api.Contracts.EstadoApiResponse">
+            <summary>Estado de disponibilidade do serviço de predição.</summary>
+        </member>
+        <member name="M:PrevisaoPrecosImoveis.Api.Contracts.EstadoApiResponse.#ctor(System.Boolean,System.Boolean)">
+            <summary>Estado de disponibilidade do serviço de predição.</summary>
+        </member>
+    </members>
+</doc>

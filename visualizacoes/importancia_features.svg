@@ -1,0 +1,65 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#1f2937}.title{font-size:22px;font-weight:600}.subtitle{font-size:13px;fill:#6b7280}.label{font-size:13px}.value{font-size:11px;fill:#4b5563}.axis-label{font-size:12px}.axis{stroke:#6b7280;stroke-width:1}.zero{stroke:#dc2626;stroke-width:1.5;stroke-dasharray:6 4}</style>
+<title>Importância das variáveis (permutação)</title>
+<text x="500" y="40" class="title" text-anchor="middle">Importância das variáveis (permutação)</text>
+<text x="500" y="62" class="subtitle" text-anchor="middle">Aumento do RMSE após embaralhar cada variável</text>
+<line x1="605" y1="80" x2="605" y2="550" class="axis"/>
+<text x="238" y="96.415" class="label" text-anchor="end">Ano de construção</text>
+<rect x="605" y="84.453" width="355" height="15.337" fill="#2563eb" rx="3"/>
+<text x="966" y="96.415" class="value" text-anchor="start">663824.323</text>
+<text x="238" y="121.152" class="label" text-anchor="end">Padrão construtivo</text>
+<rect x="605" y="109.189" width="29.396" height="15.337" fill="#2563eb" rx="3"/>
+<text x="640.396" y="121.152" class="value" text-anchor="start">54968.975</text>
+<text x="238" y="145.889" class="label" text-anchor="end">Valor venal</text>
+<rect x="605" y="133.926" width="16.189" height="15.337" fill="#2563eb" rx="3"/>
+<text x="627.189" y="145.889" class="value" text-anchor="start">30271.426</text>
+<text x="238" y="170.626" class="label" text-anchor="end">Área do terreno (m²)</text>
+<rect x="605" y="158.663" width="13.236" height="15.337" fill="#2563eb" rx="3"/>
+<text x="624.236" y="170.626" class="value" text-anchor="start">24750.165</text>
+<text x="238" y="195.363" class="label" text-anchor="end">Idade do imóvel</text>
+<rect x="605" y="183.4" width="7.877" height="15.337" fill="#2563eb" rx="3"/>
+<text x="618.877" y="195.363" class="value" text-anchor="start">14728.909</text>
+<text x="238" y="220.1" class="label" text-anchor="end">Dormitórios</text>
+<rect x="605" y="208.137" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="220.1" class="value" text-anchor="start">0</text>
+<text x="238" y="244.836" class="label" text-anchor="end">Banheiros</text>
+<rect x="605" y="232.874" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="244.836" class="value" text-anchor="start">0</text>
+<text x="238" y="269.573" class="label" text-anchor="end">Vagas de garagem</text>
+<rect x="605" y="257.611" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="269.573" class="value" text-anchor="start">0</text>
+<text x="238" y="294.31" class="label" text-anchor="end">IPCA 12 meses</text>
+<rect x="605" y="282.347" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="294.31" class="value" text-anchor="start">0</text>
+<text x="238" y="319.047" class="label" text-anchor="end">Meta Selic</text>
+<rect x="605" y="307.084" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="319.047" class="value" text-anchor="start">0</text>
+<text x="238" y="343.784" class="label" text-anchor="end">Índice FipeZap</text>
+<rect x="605" y="331.821" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="343.784" class="value" text-anchor="start">0</text>
+<text x="238" y="368.521" class="label" text-anchor="end">Distância ao metrô (km)</text>
+<rect x="605" y="356.558" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="368.521" class="value" text-anchor="start">0</text>
+<text x="238" y="393.257" class="label" text-anchor="end">Distância a escolas (km)</text>
+<rect x="605" y="381.295" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="393.257" class="value" text-anchor="start">0</text>
+<text x="238" y="417.994" class="label" text-anchor="end">Distância a parques (km)</text>
+<rect x="605" y="406.032" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="417.994" class="value" text-anchor="start">0</text>
+<text x="238" y="442.731" class="label" text-anchor="end">Possui coordenadas</text>
+<rect x="605" y="430.768" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="442.731" class="value" text-anchor="start">0</text>
+<text x="238" y="467.468" class="label" text-anchor="end">Cidade</text>
+<rect x="605" y="455.505" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="467.468" class="value" text-anchor="start">0</text>
+<text x="238" y="492.205" class="label" text-anchor="end">Tipo do imóvel</text>
+<rect x="605" y="480.242" width="0" height="15.337" fill="#2563eb" rx="3"/>
+<text x="611" y="492.205" class="value" text-anchor="start">0</text>
+<text x="238" y="516.942" class="label" text-anchor="end">Area construída (m²)</text>
+<rect x="602.543" y="504.979" width="2.457" height="15.337" fill="#dc2626" rx="3"/>
+<text x="596.543" y="516.942" class="value" text-anchor="end">-4593.7</text>
+<text x="238" y="541.679" class="label" text-anchor="end">Bairro</text>
+<rect x="588.397" y="529.716" width="16.603" height="15.337" fill="#dc2626" rx="3"/>
+<text x="582.397" y="541.679" class="value" text-anchor="end">-31046.602</text>
+<text x="500" y="588" class="axis-label" text-anchor="middle">Aumento do RMSE (valores positivos indicam maior importância)</text>
+</svg>
