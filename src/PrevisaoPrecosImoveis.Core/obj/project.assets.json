@@ -3930,11 +3930,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj",
+      "projectUniqueName": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj",
       "projectName": "PrevisaoPrecosImoveis.Core",
-      "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj",
+      "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj",
       "packagesPath": "C:\\Users\\rocha\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\obj\\",
+      "outputPath": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\rocha\\AppData\\Roaming\\NuGet\\NuGet.Config"

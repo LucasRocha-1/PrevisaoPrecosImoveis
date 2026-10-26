@@ -24,6 +24,7 @@ internal static class RelatorioPdfModelo
 {
     private const string UrlItbi =
         "https://prefeitura.sp.gov.br/web/fazenda/w/acesso_a_informacao/31501";
+    private const string UrlDadosAbertosCuritiba = "https://dadosabertos.curitiba.pr.gov.br/conjuntodado";
     private const string UrlBcb =
         "https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados";
     private const string UrlFipeZap = "https://www.fipe.org.br/pt-br/indices/fipezap/";
@@ -107,7 +108,7 @@ internal static class RelatorioPdfModelo
 
         AdicionarTabela(coluna, new[]
         {
-            ("Transações ITBI-SP lidas", dados.TransacoesItbiColetadas.ToString("N0", PtBr)),
+            ("Transações ITBI lidas (SP + Curitiba)", dados.TransacoesItbiColetadas.ToString("N0", PtBr)),
             ("Registros processados", dados.RegistrosProcessados.ToString("N0", PtBr)),
             ("Registros/arquivos ignorados com problemas", dados.RegistrosIgnorados.Count.ToString("N0", PtBr)),
             ("Amostras válidas do modelo", (dados.Modelo.QuantidadeTreino + dados.Modelo.QuantidadeTeste).ToString("N0", PtBr)),
@@ -134,8 +135,12 @@ internal static class RelatorioPdfModelo
         {
             LinhaTabela(tabela, "ITBI – Prefeitura de São Paulo",
                 "Download de XLSX publicados; leitura das colunas de data, valor, áreas, bairro e cadastro.",
-                $"{dados.TransacoesItbiColetadas:N0} válidas lidas; {dados.RegistrosIgnorados.Count:N0} itens ignorados",
+                $"{dados.DadosDoModelo.Count(t => t.Fonte == "ITBI_SP"):N0} válidas no conjunto usado",
                 UrlItbi);
+            LinhaTabela(tabela, "ITBI – Curitiba (CSV local)",
+                "Leitura de CSV normalizado em data/raw/itbi_curitiba; conferir a fonte pública e registrar sua origem.",
+                $"{dados.DadosDoModelo.Count(t => t.Fonte == "ITBI_Curitiba"):N0} válidas no conjunto usado",
+                UrlDadosAbertosCuritiba);
             LinhaTabela(tabela, "BCB SGS – IPCA 12 meses (13522)",
                 "API JSON; associação por mês com defasagem conservadora de dois meses.",
                 dados.PontosIpcaColetados.ToString("N0", PtBr), UrlBcb.Replace("{codigo}", "13522"));
@@ -163,7 +168,7 @@ internal static class RelatorioPdfModelo
             .FontSize(8).FontColor(Colors.Grey.Darken2);
 
         coluna.Item().PaddingTop(6).Text(
-            $"Arquivos ITBI XLSX encontrados: {FormatarArquivos(dados.ArquivosItbi)}")
+            $"Arquivos ITBI encontrados: {FormatarArquivos(dados.ArquivosItbi)}")
             .FontSize(8);
         coluna.Item().Text(
             $"Arquivos FipeZap XLSX encontrados: {FormatarArquivos(dados.ArquivosFipeZap)}")
@@ -251,10 +256,10 @@ internal static class RelatorioPdfModelo
         Tabela(coluna, new[] { "Dado de entrada", "Origem", "Transformação e uso no modelo" }, tabela =>
         {
             LinhaTabela(tabela, "Valor da transação",
-                "ITBI-SP, coluna de valor declarado",
+                "ITBI-SP ou arquivo CSV de ITBI Curitiba, coluna de valor declarado",
                 "Alvo (label) da regressão; não deve ser usado como feature.");
             LinhaTabela(tabela, "Área, terreno, bairro, tipo, padrão e ano",
-                "Campos do XLSX de ITBI-SP",
+                "Campos disponíveis na fonte de ITBI da localidade",
                 "Features físicas e categóricas do imóvel.");
             LinhaTabela(tabela, "IPCA acumulado 12 meses / Selic meta",
                 "BCB SGS, séries 13522 e 432",
@@ -263,7 +268,7 @@ internal static class RelatorioPdfModelo
                 "CEP + coordenadas locais + POIs OSM/Overpass",
                 "Haversine em km até o POI elegível mais próximo; marcador 1000 km se ausente.");
             LinhaTabela(tabela, "Cidade e bairro",
-                "Campos de localização ITBI-SP",
+                "Campos de localização da fonte de ITBI",
                 "Features categóricas; também indicam o recorte geográfico do conjunto.");
             LinhaTabela(tabela, "Índice FipeZap",
                 "XLSX em data/raw/fipezap",

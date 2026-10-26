@@ -17,6 +17,21 @@
 ### Outras capitais
 Verificar o portal de transparência / dados abertos de cada prefeitura (Curitiba, Rio, Recife, etc.).
 
+### Curitiba (importação CSV)
+- **Portal municipal de dados abertos**: https://dadosabertos.curitiba.pr.gov.br/conjuntodado
+- O coletor `ColetorItbiCuritiba` lê CSVs já baixados e normalizados em `data/raw/itbi_curitiba/`. Ele não tenta baixar o portal nem presume que um dataset de transações de ITBI esteja publicado.
+- O catálogo público consultado não permitiu confirmar um arquivo aberto de transações individuais de ITBI nem um esquema disponível para download automático. Antes de usar dados, confirme com a Prefeitura que a fonte contém transações/valores declarados de venda e que a reutilização é permitida. Guias de recolhimento, base de cálculo e valor venal não devem ser tratados como preço de venda.
+- O CSV precisa conter cabeçalhos de data da transação, valor da transação e área construída. O coletor aceita os nomes canônicos do exemplo abaixo e variações comuns sem acentos ou separadores (por exemplo `Data da Transação`, `Valor Declarado`, `Área Privativa`). Campos não fornecidos pela fonte ficam sem preenchimento e são normalizados para zero ou “Não informado”.
+
+Exemplo de esquema canônico (UTF-8; delimitador vírgula ou ponto e vírgula; datas `dd/MM/yyyy`; números em formato brasileiro ou invariável):
+
+```csv
+data_transacao;valor_transacao;area_construida_m2;area_terreno_m2;valor_venal;dormitorios;banheiros;vagas_garagem;ano_construcao;tipo_imovel;padrao_construtivo;bairro;logradouro;cep
+15/01/2025;580000,00;78,5;0;0;2;2;1;2012;Apartamento;Medio;Centro;Rua Exemplo;80010000
+```
+
+Linhas sem data, valor positivo ou área construída positiva são registradas como ignoradas. A cidade é marcada como `Curitiba`; a área de terreno, dormitórios, banheiros, vagas, ano, tipo, padrão, bairro, logradouro e CEP são carregados quando presentes. Após a importação, o pipeline combina essas linhas com ITBI-SP, aplica a mesma preparação temporal e treina novamente o modelo. As métricas agregadas não substituem a avaliação separada por cidade; Curitiba precisa de volume e cobertura temporal suficientes antes de se interpretar suas previsões.
+
 ---
 
 ## 2. IPTU – Valor Venal e Cadastro

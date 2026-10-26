@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "m03ReiiSQEQ=",
+  "dgSpecHash": "ifK0OBroj08=",
   "success": true,
-  "projectFilePath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
+  "projectFilePath": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rocha\\.nuget\\packages\\apache.arrow\\11.0.0\\apache.arrow.11.0.0.nupkg.sha512",
     "C:\\Users\\rocha\\.nuget\\packages\\closedxml\\0.104.2\\closedxml.0.104.2.nupkg.sha512",

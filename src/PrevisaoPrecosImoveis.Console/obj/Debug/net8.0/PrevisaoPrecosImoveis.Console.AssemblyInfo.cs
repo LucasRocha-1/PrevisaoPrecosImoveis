@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PrevisaoPrecosImoveis.Console")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3f300e58b9418074126a127b3b87bd2345059b8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34ff085a9523549d48a918f984d33cfde6a749d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("PrevisaoPrecosImoveis.Console")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PrevisaoPrecosImoveis.Console")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

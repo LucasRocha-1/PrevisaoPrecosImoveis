@@ -95,6 +95,29 @@ public static class ExemplosPrevisao
         DataTransacao = new DateTimeOffset(2026, 1, 15, 12, 0, 0, TimeSpan.FromHours(-3))
     };
 
+    public static CreatePrevisaoRequest ApartamentoCuritiba { get; } = new()
+    {
+        Cidade = "Curitiba",
+        Bairro = "Centro",
+        AreaConstruidaM2 = 78,
+        AreaTerrenoM2 = 0,
+        Dormitorios = 2,
+        Banheiros = 2,
+        VagasGaragem = 1,
+        AnoConstrucao = 2012,
+        TipoImovel = "Apartamento",
+        PadraoConstrutivo = "Medio",
+        ValorVenal = 0,
+        IpcaAcumulado12m = 4.5f,
+        SelicMeta = 10.5f,
+        IndiceFipeZapCidade = 0,
+        DistanciaMetroKm = 1000,
+        DistanciaEscolaKm = 1000,
+        DistanciaParqueKm = 1000,
+        PossuiCoordenadas = false,
+        DataTransacao = new DateTimeOffset(2026, 6, 10, 9, 0, 0, TimeSpan.FromHours(-3))
+    };
+
     public static IReadOnlyList<ExemploPrevisaoDocumentado> Todos { get; } =
     [
         new(
@@ -116,7 +139,12 @@ public static class ExemplosPrevisao
             "semCoordenadas",
             "Sem coordenadas",
             "Quando não há geolocalização, use 1000 km e possuiCoordenadas = false.",
-            SemCoordenadas)
+            SemCoordenadas),
+        new(
+            "apartamentoCuritiba",
+            "Apartamento em Curitiba",
+            "Exemplo de entrada para Curitiba. A qualidade da estimativa depende do treinamento com dados reais da cidade.",
+            ApartamentoCuritiba)
     ];
 }
 

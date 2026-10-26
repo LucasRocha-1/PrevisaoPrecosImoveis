@@ -16,6 +16,7 @@ PrevisaoPrecosImoveis/
 │       ├── Models/                        # ImovelTransacao, IndicadorMacro, PredicaoPreco
 │       ├── DataCollection/                # Coletores de fontes públicas
 │       │   ├── ColetorItbiSaoPaulo.cs     # ITBI-SP (transações reais)
+│       │   ├── ColetorItbiCuritiba.cs     # ITBI Curitiba (CSV normalizado local)
 │       │   ├── ColetorBcb.cs              # Séries SGS + Mercado Imobiliário BCB
 │       │   └── ColetorFipeZap.cs          # Índice FipeZap
 │       ├── Preprocessing/                 # Limpeza, feature engineering, DataFrame
@@ -35,6 +36,7 @@ PrevisaoPrecosImoveis/
 | Fonte | Tipo | O que fornece | Link oficial |
 |-------|------|---------------|--------------|
 | **Prefeitura de São Paulo – ITBI** | Transações reais | Valor declarado, área, endereço, data | [Acesso à Informação – ITBI](https://prefeitura.sp.gov.br/web/fazenda/w/acesso_a_informacao/31501) |
+| **Curitiba – ITBI** | Importação local CSV | Transações da cidade quando obtidas de uma fonte pública verificada; sem download automático | [Catálogo de Dados Abertos](https://dadosabertos.curitiba.pr.gov.br/conjuntodado) |
 | **Banco Central (SGS)** | Séries temporais | IPCA, Selic, IGP-M, TR | [API SGS](https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados) |
 | **BCB – Mercado Imobiliário** | Crédito e estoque | Concessões, estoque de crédito imobiliário | [Olinda OData](https://olinda.bcb.gov.br/olinda/servico/MercadoImobiliario/) |
 | **FipeZap** | Índices de preços pedidos | Variação mensal por cidade (venda/aluguel) | [Fipe – Índice FipeZap](https://www.fipe.org.br/pt-br/indices/fipezap/) |
@@ -96,9 +98,10 @@ dotnet run --project src/PrevisaoPrecosImoveis.Console
 
 ### Dados reais
 1. Na execução, os arquivos XLSX publicados na página oficial do ITBI-SP são localizados e baixados automaticamente para `data/raw/itbi_sp/`. Arquivos já existentes não são baixados novamente.
-2. Baixe a planilha histórica do FipeZap e coloque em `data/raw/fipezap/`.
-3. As séries do BCB são baixadas automaticamente via API.
-4. Para ativar as features espaciais, crie `data/raw/geolocalizacao/cep_coordenadas.csv` com o cabeçalho e formato abaixo. Use coordenadas públicas/centroides de CEP; o pipeline associa o CEP do ITBI e não envia endereços de transações para geocodificadores.
+2. Para incluir Curitiba, coloque em `data/raw/itbi_curitiba/` um ou mais CSVs normalizados conforme o esquema documentado em [FontesDados.md](docs/FontesDados.md). O coletor dessa cidade lê arquivos locais e não baixa dados automaticamente: não foi localizado no catálogo municipal consultado um dataset de transações de ITBI com endereço e formato confirmados. Não use dados de guias ou avaliações fiscais como se fossem preços declarados de venda.
+3. Baixe a planilha histórica do FipeZap e coloque em `data/raw/fipezap/`.
+4. As séries do BCB são baixadas automaticamente via API.
+5. Para ativar as features espaciais, crie `data/raw/geolocalizacao/cep_coordenadas.csv` com o cabeçalho e formato abaixo. Use coordenadas públicas/centroides de CEP; o pipeline associa o CEP do ITBI e não envia endereços de transações para geocodificadores.
 
 ```csv
 Cep,Latitude,Longitude
@@ -131,7 +134,7 @@ A URL raiz `http://localhost:5080/` redireciona para a documentação interativa
 | `GET /api/v1/previsoes/exemplos` | Lista os corpos prontos para testar uma previsão |
 | `POST /api/v1/previsoes` | Recebe as características do imóvel e retorna a estimativa; entrada inválida retorna 400 |
 
-No Swagger, abra **Previsões → POST /api/v1/previsoes → Try it out** e escolha no seletor de exemplos: apartamento em Pinheiros, casa em Moema, apartamento compacto em Santana ou imóvel sem coordenadas. Os corpos já vêm preenchidos com dados válidos; após executar o treinamento e carregar o modelo, cada opção pode ser enviada diretamente. As seções **Saúde** e **Modelo** também permitem verificar a API e a disponibilidade do modelo.
+No Swagger, abra **Previsões → POST /api/v1/previsoes → Try it out** e escolha no seletor de exemplos: apartamento em Pinheiros, casa em Moema, apartamento compacto em Santana, imóvel em Curitiba ou imóvel sem coordenadas. Os corpos passam pela validação da API; a estimativa de Curitiba só é confiável se o modelo tiver sido treinado e avaliado com transações reais dessa cidade. As seções **Saúde** e **Modelo** também permitem verificar a API e a disponibilidade do modelo.
 
 Exemplo mínimo de corpo para `POST /api/v1/previsoes` (distâncias espaciais em quilômetros):
 

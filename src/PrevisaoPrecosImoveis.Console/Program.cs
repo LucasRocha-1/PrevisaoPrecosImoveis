@@ -7,7 +7,6 @@ using PrevisaoPrecosImoveis.Core.Models;
 using PrevisaoPrecosImoveis.Core.Preprocessing;
 
 // ============================================================
-// Esqueleto – Previsão de Preços de Imóveis no Brasil
 // Técnicas: coleta de dados públicos, pré-processamento,
 // regressão com ML.NET (compatível com currículo de IA/ML)
 // ============================================================
@@ -19,6 +18,7 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         services.AddSingleton<ColetorItbiSaoPaulo>();
+        services.AddSingleton<ColetorItbiCuritiba>();
         services.AddSingleton<ColetorBcb>();
         services.AddSingleton<ColetorFipeZap>();
         services.AddSingleton<PreprocessadorDados>();
@@ -29,6 +29,7 @@ var host = Host.CreateDefaultBuilder(args)
 
 var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Main");
 var coletorItbi = host.Services.GetRequiredService<ColetorItbiSaoPaulo>();
+var coletorItbiCuritiba = host.Services.GetRequiredService<ColetorItbiCuritiba>();
 var coletorBcb = host.Services.GetRequiredService<ColetorBcb>();
 var preprocessador = host.Services.GetRequiredService<PreprocessadorDados>();
 var enriquecedorEspacial = host.Services.GetRequiredService<EnriquecedorEspacial>();
@@ -55,6 +56,10 @@ logger.LogInformation("   IPCA (12m): {Count} pontos | Selic: {Count2} pontos",
 var transacoesItbi = await coletorItbi.ColetarAsync();
 logger.LogInformation("   Transações ITBI-SP carregadas: {Count}", transacoesItbi.Count);
 var registrosIgnorados = coletorItbi.RegistrosIgnorados.ToList();
+var transacoesCuritiba = await coletorItbiCuritiba.ColetarAsync();
+logger.LogInformation("   Transações ITBI Curitiba carregadas: {Count}", transacoesCuritiba.Count);
+registrosIgnorados.AddRange(coletorItbiCuritiba.RegistrosIgnorados);
+var transacoesItbiCombinadas = transacoesItbi.Concat(transacoesCuritiba).ToList();
 
 // FipeZap (colocar planilha em data/raw/fipezap)
 var indicesFipe = await host.Services.GetRequiredService<ColetorFipeZap>().ColetarAsync();
@@ -65,7 +70,7 @@ logger.LogInformation("   Pontos FipeZap: {Count}", indicesFipe.Count);
 // -------------------------------------------------------
 logger.LogInformation("2) Pré-processamento e feature engineering...");
 
-var transacoesEspaciais = await enriquecedorEspacial.EnriquecerAsync(transacoesItbi);
+var transacoesEspaciais = await enriquecedorEspacial.EnriquecerAsync(transacoesItbiCombinadas);
 var enriquecidas = preprocessador.EnriquecerComMacro(transacoesEspaciais, serieIpca, serieSelic);
 var df = preprocessador.ConverterParaDataFrame(enriquecidas);
 df = preprocessador.Limpar(df, registrosIgnorados);
@@ -101,7 +106,7 @@ else
 {
     logger.LogWarning(
         "Poucos dados reais carregados ({Count}). " +
-        "Baixe os arquivos ITBI de https://prefeitura.sp.gov.br/... e coloque em data/raw/itbi_sp/",
+        "Adicione transações válidas em data/raw/itbi_sp/ e/ou data/raw/itbi_curitiba/.",
         transacoesValidas.Count);
 
     // Demonstração com dados sintéticos para o esqueleto funcionar
@@ -151,19 +156,13 @@ RelatorioPdfModelo.Gerar(new RelatorioPdfDados(
     caminhoRelatorio,
     pastaVisualizacoes,
     dadosParaTreinoRelatorio,
-    transacoesItbi.Count,
+    transacoesItbiCombinadas.Count,
     serieIpca.Count,
     serieSelic.Count,
     indicesFipe.Count,
     (int)df.Rows.Count,
     usouDadosSinteticos,
-    Directory.Exists(Path.Combine("data", "raw", "itbi_sp"))
-        ? Directory.GetFiles(Path.Combine("data", "raw", "itbi_sp"), "*.xlsx")
-            .Select(Path.GetFileName)
-            .Where(nome => nome is not null)
-            .Select(nome => nome!)
-            .ToList()
-        : [],
+    ListarArquivosItbi(),
     Directory.Exists(Path.Combine("data", "raw", "fipezap"))
         ? Directory.GetFiles(Path.Combine("data", "raw", "fipezap"), "*.xlsx")
             .Select(Path.GetFileName)
@@ -178,8 +177,29 @@ logger.LogInformation("Relatório PDF de dados e modelo salvo em {Caminho}", cam
 logger.LogInformation("=== Pipeline finalizado ===");
 return;
 
+static IReadOnlyList<string> ListarArquivosItbi()
+{
+    var arquivos = new List<string>();
+    foreach (var (pasta, padrao, cidade) in new[]
+             {
+                 (Path.Combine("data", "raw", "itbi_sp"), "*.xlsx", "SP"),
+                 (Path.Combine("data", "raw", "itbi_curitiba"), "*.csv", "Curitiba")
+             })
+    {
+        if (Directory.Exists(pasta))
+        {
+            arquivos.AddRange(Directory.GetFiles(pasta, padrao)
+                .Select(Path.GetFileName)
+                .Where(nome => nome is not null)
+                .Select(nome => $"{cidade}: {nome}"));
+        }
+    }
+
+    return arquivos;
+}
+
 // -------------------------------------------------------
-// Helper: dados sintéticos apenas para demonstração do esqueleto
+// Helper: dados sintéticos apenas para demonstração
 // -------------------------------------------------------
 static List<ImovelTransacao> GerarDadosSinteticos(int n)
 {

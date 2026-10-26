@@ -39,7 +39,8 @@ public static class PredictionEndpoints
             .WithDescription(
                 "Recebe características do imóvel e distâncias espaciais para gerar uma estimativa. " +
                 "No Swagger, use o seletor **Examples**: Apartamento em Pinheiros, Casa em Moema, " +
-                "apartamento compacto em Santana ou o caso sem coordenadas. Distâncias em quilômetros.")
+                "apartamento compacto em Santana, imóvel em Curitiba ou o caso sem coordenadas. " +
+                "Distâncias em quilômetros; a estimativa para Curitiba depende de dados reais da cidade no treino.")
             .Produces<PrevisaoResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status503ServiceUnavailable)

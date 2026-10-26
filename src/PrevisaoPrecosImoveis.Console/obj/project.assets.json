@@ -5500,11 +5500,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
+      "projectUniqueName": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
       "projectName": "PrevisaoPrecosImoveis.Console",
-      "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
+      "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Console\\PrevisaoPrecosImoveis.Console.csproj",
       "packagesPath": "C:\\Users\\rocha\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Console\\obj\\",
+      "outputPath": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Console\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\rocha\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -5520,8 +5520,8 @@
           "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj": {
-              "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\PrevisaoPrecosImoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj"
+            "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj": {
+              "projectPath": "C:\\Users\\rocha\\Documents\\projetos\\Previsao-Precos-Imoveis\\src\\PrevisaoPrecosImoveis.Core\\PrevisaoPrecosImoveis.Core.csproj"
             }
           }
         }
