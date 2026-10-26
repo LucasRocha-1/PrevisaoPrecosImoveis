@@ -36,7 +36,7 @@ PrevisaoPrecosImoveis/
 | Fonte | Tipo | O que fornece | Link oficial |
 |-------|------|---------------|--------------|
 | **Prefeitura de São Paulo – ITBI** | Transações reais | Valor declarado, área, endereço, data | [Acesso à Informação – ITBI](https://prefeitura.sp.gov.br/web/fazenda/w/acesso_a_informacao/31501) |
-| **Curitiba – ITBI** | Importação local CSV | Transações da cidade quando obtidas de uma fonte pública verificada; sem download automático | [Catálogo de Dados Abertos](https://dadosabertos.curitiba.pr.gov.br/conjuntodado) |
+| **Curitiba – ITBI** | CSV local ou baixado por URL configurada | Transações da cidade quando obtidas de uma fonte pública verificada | [Catálogo de Dados Abertos](https://dadosabertos.curitiba.pr.gov.br/conjuntodado) |
 | **Banco Central (SGS)** | Séries temporais | IPCA, Selic, IGP-M, TR | [API SGS](https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados) |
 | **BCB – Mercado Imobiliário** | Crédito e estoque | Concessões, estoque de crédito imobiliário | [Olinda OData](https://olinda.bcb.gov.br/olinda/servico/MercadoImobiliario/) |
 | **FipeZap** | Índices de preços pedidos | Variação mensal por cidade (venda/aluguel) | [Fipe – Índice FipeZap](https://www.fipe.org.br/pt-br/indices/fipezap/) |
@@ -96,9 +96,18 @@ dotnet build
 dotnet run --project src/PrevisaoPrecosImoveis.Console
 ```
 
+Configure a URL do CSV de Curitiba antes de iniciar o pipeline. No PowerShell:
+
+```powershell
+$env:CuritibaItbiUrl = "https://servidor-publico.gov.br/arquivo/itbi_curitiba.csv"
+dotnet run --project src/PrevisaoPrecosImoveis.Console
+```
+
+O programa baixa o CSV configurado em cada execução para `data/raw/itbi_curitiba/curitiba_itbi_download.csv`. A URL deve apontar diretamente para o arquivo CSV; links para páginas HTML do portal não funcionam como fonte de dados.
+
 ### Dados reais
 1. Na execução, os arquivos XLSX publicados na página oficial do ITBI-SP são localizados e baixados automaticamente para `data/raw/itbi_sp/`. Arquivos já existentes não são baixados novamente.
-2. Para incluir Curitiba, coloque em `data/raw/itbi_curitiba/` um ou mais CSVs normalizados conforme o esquema documentado em [FontesDados.md](docs/FontesDados.md). O coletor dessa cidade lê arquivos locais e não baixa dados automaticamente: não foi localizado no catálogo municipal consultado um dataset de transações de ITBI com endereço e formato confirmados. Não use dados de guias ou avaliações fiscais como se fossem preços declarados de venda.
+2. Para incluir Curitiba, configure `CuritibaItbiUrl` com a URL HTTPS direta de um CSV público no formato documentado em [FontesDados.md](docs/FontesDados.md), ou coloque o CSV manualmente em `data/raw/itbi_curitiba/`. O download automático valida o cabeçalho e salva o arquivo antes de importar. Não foi localizado no catálogo municipal consultado um dataset de transações de ITBI com endereço e formato confirmados; portanto, use somente uma fonte cuja origem, conteúdo de vendas e permissão de reutilização tenham sido verificados. Não use dados de guias ou avaliações fiscais como se fossem preços declarados de venda.
 3. Baixe a planilha histórica do FipeZap e coloque em `data/raw/fipezap/`.
 4. As séries do BCB são baixadas automaticamente via API.
 5. Para ativar as features espaciais, crie `data/raw/geolocalizacao/cep_coordenadas.csv` com o cabeçalho e formato abaixo. Use coordenadas públicas/centroides de CEP; o pipeline associa o CEP do ITBI e não envia endereços de transações para geocodificadores.

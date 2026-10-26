@@ -19,8 +19,9 @@ Verificar o portal de transparência / dados abertos de cada prefeitura (Curitib
 
 ### Curitiba (importação CSV)
 - **Portal municipal de dados abertos**: https://dadosabertos.curitiba.pr.gov.br/conjuntodado
-- O coletor `ColetorItbiCuritiba` lê CSVs já baixados e normalizados em `data/raw/itbi_curitiba/`. Ele não tenta baixar o portal nem presume que um dataset de transações de ITBI esteja publicado.
+- O coletor `ColetorItbiCuritiba` baixa um CSV quando `CuritibaItbiUrl` está configurada e também lê os CSVs locais em `data/raw/itbi_curitiba/`. O endereço configurado precisa ser um link HTTPS direto para um arquivo CSV no esquema normalizado abaixo; páginas de catálogo HTML não são fontes de registros.
 - O catálogo público consultado não permitiu confirmar um arquivo aberto de transações individuais de ITBI nem um esquema disponível para download automático. Antes de usar dados, confirme com a Prefeitura que a fonte contém transações/valores declarados de venda e que a reutilização é permitida. Guias de recolhimento, base de cálculo e valor venal não devem ser tratados como preço de venda.
+- Configure o endereço do CSV pela variável de ambiente `CuritibaItbiUrl` ou pela configuração equivalente do .NET. O arquivo baixado é salvo como `data/raw/itbi_curitiba/curitiba_itbi_download.csv`, validado antes da substituição do arquivo anterior e limitado a 250 MB. Uma resposta inválida ou indisponibilidade da URL interrompe a coleta com erro explícito; não é tratada como treino bem-sucedido sem download.
 - O CSV precisa conter cabeçalhos de data da transação, valor da transação e área construída. O coletor aceita os nomes canônicos do exemplo abaixo e variações comuns sem acentos ou separadores (por exemplo `Data da Transação`, `Valor Declarado`, `Área Privativa`). Campos não fornecidos pela fonte ficam sem preenchimento e são normalizados para zero ou “Não informado”.
 
 Exemplo de esquema canônico (UTF-8; delimitador vírgula ou ponto e vírgula; datas `dd/MM/yyyy`; números em formato brasileiro ou invariável):

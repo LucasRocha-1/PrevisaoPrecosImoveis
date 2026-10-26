@@ -6,13 +6,16 @@ using PrevisaoPrecosImoveis.Core.Models;
 namespace PrevisaoPrecosImoveis.Core.DataCollection;
 
 /// <summary>
-/// Lê arquivos CSV de transações imobiliárias de Curitiba já obtidos e normalizados
-/// a partir de uma fonte pública. Não pressupõe um endpoint ou formato municipal específico.
+/// Baixa, quando configurado, e lê CSVs de transações imobiliárias de Curitiba.
+/// O CSV remoto precisa seguir o esquema normalizado aceito pelo coletor.
 /// </summary>
 public sealed class ColetorItbiCuritiba : IColetorDados
 {
+    private const long TamanhoMaximoDownloadBytes = 250 * 1024 * 1024;
     private readonly ILogger<ColetorItbiCuritiba> _logger;
+    private readonly HttpClient _http;
     private readonly string _pastaDados;
+    private readonly string? _urlDownload;
     private readonly List<RegistroIgnorado> _registrosIgnorados = [];
 
     public string NomeFonte => "ITBI_Curitiba";
@@ -20,17 +23,26 @@ public sealed class ColetorItbiCuritiba : IColetorDados
     public IReadOnlyList<RegistroIgnorado> RegistrosIgnorados => _registrosIgnorados;
 
     public ColetorItbiCuritiba(
+        HttpClient http,
         ILogger<ColetorItbiCuritiba> logger,
+        string? urlDownload = null,
         string pastaDados = "data/raw/itbi_curitiba")
     {
+        _http = http;
         _logger = logger;
+        _urlDownload = string.IsNullOrWhiteSpace(urlDownload) ? null : urlDownload.Trim();
         _pastaDados = pastaDados;
         Directory.CreateDirectory(_pastaDados);
     }
 
-    public Task<IReadOnlyList<ImovelTransacao>> ColetarAsync(CancellationToken ct = default)
+    public async Task<IReadOnlyList<ImovelTransacao>> ColetarAsync(CancellationToken ct = default)
     {
         _registrosIgnorados.Clear();
+        if (_urlDownload is not null)
+        {
+            await BaixarArquivoAsync(_urlDownload, ct);
+        }
+
         var resultados = new List<ImovelTransacao>();
         var arquivos = Directory.GetFiles(_pastaDados, "*.csv")
             .OrderBy(caminho => caminho, StringComparer.OrdinalIgnoreCase)
@@ -40,6 +52,7 @@ public sealed class ColetorItbiCuritiba : IColetorDados
         {
             _logger.LogWarning(
                 "Nenhum CSV de ITBI de Curitiba foi encontrado em {Pasta}. " +
+                "Configure CuritibaItbiUrl com o endereço HTTPS direto do CSV. " +
                 "Consulte docs/FontesDados.md para o esquema esperado.",
                 _pastaDados);
         }
@@ -67,7 +80,91 @@ public sealed class ColetorItbiCuritiba : IColetorDados
             "{Ignorados} linhas/arquivos ignorados.",
             resultados.Count,
             _registrosIgnorados.Count);
-        return Task.FromResult<IReadOnlyList<ImovelTransacao>>(resultados);
+        return resultados;
+    }
+
+    private async Task BaixarArquivoAsync(string url, CancellationToken ct)
+    {
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) ||
+            uri.Scheme != Uri.UriSchemeHttps ||
+            !string.IsNullOrEmpty(uri.UserInfo))
+        {
+            throw new InvalidDataException(
+                "CuritibaItbiUrl precisa ser uma URL HTTPS absoluta sem credenciais.");
+        }
+
+        using var resposta = await _http.GetAsync(
+            uri,
+            HttpCompletionOption.ResponseHeadersRead,
+            ct);
+        resposta.EnsureSuccessStatusCode();
+
+        var urlFinal = resposta.RequestMessage?.RequestUri;
+        if (urlFinal is null || urlFinal.Scheme != Uri.UriSchemeHttps)
+        {
+            throw new InvalidDataException(
+                $"O download do ITBI Curitiba redirecionou para uma URL que não usa HTTPS: {urlFinal}");
+        }
+
+        if (resposta.Content.Headers.ContentLength is > TamanhoMaximoDownloadBytes)
+        {
+            throw new InvalidDataException(
+                $"O CSV de ITBI Curitiba excede o limite de {TamanhoMaximoDownloadBytes / 1024 / 1024} MB.");
+        }
+
+        var destino = Path.Combine(_pastaDados, "curitiba_itbi_download.csv");
+        var temporario = $"{destino}.{Guid.NewGuid():N}.tmp";
+        try
+        {
+            await using (var arquivo = new FileStream(
+                temporario,
+                FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.None,
+                bufferSize: 81920,
+                useAsync: true))
+            await using (var stream = await resposta.Content.ReadAsStreamAsync(ct))
+            {
+                var buffer = new byte[81920];
+                long totalBytes = 0;
+                int bytesLidos;
+                while ((bytesLidos = await stream.ReadAsync(buffer, ct)) > 0)
+                {
+                    totalBytes += bytesLidos;
+                    if (totalBytes > TamanhoMaximoDownloadBytes)
+                    {
+                        throw new InvalidDataException(
+                            $"O CSV de ITBI Curitiba excede o limite de {TamanhoMaximoDownloadBytes / 1024 / 1024} MB.");
+                    }
+
+                    await arquivo.WriteAsync(buffer.AsMemory(0, bytesLidos), ct);
+                }
+            }
+
+            ValidarCabecalhoCsv(temporario);
+            File.Move(temporario, destino, overwrite: true);
+            _logger.LogInformation("Arquivo de ITBI Curitiba baixado de {Url} para {Destino}.", uri, destino);
+        }
+        finally
+        {
+            ArquivoFontePublica.TentarExcluir(temporario);
+        }
+    }
+
+    private static void ValidarCabecalhoCsv(string caminho)
+    {
+        using var leitor = new StreamReader(caminho, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+        var primeiraLinha = leitor.ReadLine();
+        if (string.IsNullOrWhiteSpace(primeiraLinha))
+        {
+            throw new InvalidDataException("A resposta de Curitiba está vazia ou não contém cabeçalho CSV.");
+        }
+
+        var delimitador = DetectarDelimitador(primeiraLinha);
+        var cabecalho = ParsearLinha(primeiraLinha, delimitador)
+            .Select(NormalizarCabecalho)
+            .ToArray();
+        _ = CriarMapaColunas(cabecalho);
     }
 
     private List<ImovelTransacao> LerArquivo(
@@ -240,7 +337,7 @@ public sealed class ColetorItbiCuritiba : IColetorDados
 
     private static string NormalizarCabecalho(string cabecalho)
     {
-        var decomposed = cabecalho.Trim().Normalize(NormalizationForm.FormD);
+        var decomposed = cabecalho.Trim().TrimStart('\uFEFF').Normalize(NormalizationForm.FormD);
         return string.Concat(decomposed
             .Where(caractere => CharUnicodeInfo.GetUnicodeCategory(caractere) != UnicodeCategory.NonSpacingMark)
             .Where(char.IsLetterOrDigit))

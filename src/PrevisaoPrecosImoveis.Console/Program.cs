@@ -18,7 +18,10 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         services.AddSingleton<ColetorItbiSaoPaulo>();
-        services.AddSingleton<ColetorItbiCuritiba>();
+        services.AddSingleton(provider => new ColetorItbiCuritiba(
+            provider.GetRequiredService<HttpClient>(),
+            provider.GetRequiredService<ILogger<ColetorItbiCuritiba>>(),
+            ctx.Configuration["CuritibaItbiUrl"]));
         services.AddSingleton<ColetorBcb>();
         services.AddSingleton<ColetorFipeZap>();
         services.AddSingleton<PreprocessadorDados>();
